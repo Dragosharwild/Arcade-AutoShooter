@@ -8,12 +8,15 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
+    private PlayerStats stats;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
+
+        stats = GetComponent<PlayerStats>();
     }
 
     // Called automatically by PlayerInput (Send Messages)
@@ -25,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
+        float speed = moveSpeed * (stats ? stats.moveSpeedMult : 1f);
+        rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
     }
 }

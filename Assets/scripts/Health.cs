@@ -5,9 +5,8 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 5f;
     public float Current { get; private set; }
-    public float Max => maxHealth;
 
-    public event Action Died;
+    public event Action<Vector2> Died;
 
     private void Awake()
     {
@@ -22,7 +21,7 @@ public class Health : MonoBehaviour
         if (Current <= 0f)
         {
             Current = 0f;
-            Died?.Invoke();
+            Died?.Invoke(transform.position);
             Destroy(gameObject);
         }
     }

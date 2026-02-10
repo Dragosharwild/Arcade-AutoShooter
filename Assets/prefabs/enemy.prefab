@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2268181936810336084}
   - component: {fileID: 8261460628158586485}
   - component: {fileID: 1482249665315732383}
+  - component: {fileID: 2004207074910285817}
   m_Layer: 6
   m_Name: enemy
   m_TagString: Enemy
@@ -211,3 +212,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f8e5c66bd0245419a26ec927a8726a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLifetime
+--- !u!114 &2004207074910285817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5446008666655856907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4242ecb8132fa843a227ffcb8a18141, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyXpDrop
+  gemPrefab: {fileID: 27996456543916135, guid: 541543e3572cb554b890e99f524fe34f, type: 3}
