@@ -36,10 +36,12 @@ public class LevelUpUI : MonoBehaviour
     };
 
     private PlayerStats stats;
+    private UpgradeTracker tracker;
 
     private void Awake()
     {
         stats = FindFirstObjectByType<PlayerStats>();
+        tracker = FindFirstObjectByType<UpgradeTracker>();
         gameObject.SetActive(false);
     }
 
@@ -93,8 +95,11 @@ public class LevelUpUI : MonoBehaviour
                 break;
             case UpgradeType.MaxHpUp:
                 stats.maxHealthBonus += 1;
+                FindFirstObjectByType<PlayerHealth>()?.Heal(1f); // optional
                 break;
         }
+
+        tracker?.Add(type.ToString());
     }
 
     private static List<int> PickDistinct(int maxExclusive, int count)
