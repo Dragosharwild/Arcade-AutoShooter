@@ -9,6 +9,15 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private TMP_Text healthText;
     [SerializeField] private TMP_Text modifiersText;
 
+    [Header("Face UI")]
+    [SerializeField] private SpriteRenderer faceDisplay; // The UI Image component on your Canvas
+    [SerializeField] private Sprite superHappyFace; // Assigned to Player_Happy (3 HP)
+    [SerializeField] private Sprite happyFace;      // Assigned to Player_Ok (2 HP)
+    [SerializeField] private Sprite neutralFace;    // Assigned to Player_Neut.. (1 HP)
+    [SerializeField] private Sprite sadFace;        // Assigned to Player_Sad (0 HP)
+
+   
+
     private PlayerHealth playerHealth;
     private PlayerStats stats;
     private UpgradeTracker tracker;
@@ -33,11 +42,22 @@ public class PlayerHUD : MonoBehaviour
 
     private void Refresh()
     {
+        
+
         if (!playerHealth) return;
 
         float cur = playerHealth.Current;
         float max = playerHealth.MaxHealth;
 
+        // --- FACE LOGIC ---
+        if (faceDisplay != null)
+        {
+            if (cur >= 3f) faceDisplay.sprite = superHappyFace;
+            else if (cur >= 2f) faceDisplay.sprite = happyFace;
+            else if (cur >= 1f) faceDisplay.sprite = neutralFace;
+            else faceDisplay.sprite = sadFace;
+        }
+        
         if (healthBar)
         {
             healthBar.value = (max <= 0f) ? 0f : (cur / max);
@@ -70,7 +90,7 @@ public class PlayerHUD : MonoBehaviour
             sb.AppendLine();
         }
 
-        // Then show “picked upgrades” counts
+        // Then show ï¿½picked upgradesï¿½ counts
         if (tracker != null)
         {
             sb.AppendLine("Picked:");
