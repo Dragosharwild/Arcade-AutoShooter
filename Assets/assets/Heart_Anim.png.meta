@@ -1,0 +1,383 @@
+fileFormatVersion: 2
+guid: 3f61621370563ec4786e1e40e76dae09
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7059117082866351572
+    second: Heart_Anim_0
+  - first:
+      213: 6774151130356599611
+    second: Heart_Anim_1
+  - first:
+      213: 7363405713329705610
+    second: Heart_Anim_2
+  - first:
+      213: 4560244623318280029
+    second: Heart_Anim_3
+  - first:
+      213: 6667948828886953279
+    second: Heart_Anim_4
+  - first:
+      213: -2783471609189507137
+    second: Heart_Anim_5
+  - first:
+      213: 2331832954624614262
+    second: Heart_Anim_6
+  - first:
+      213: -4450185780350008164
+    second: Heart_Anim_7
+  - first:
+      213: 6481740958590496572
+    second: Heart_Anim_8
+  - first:
+      213: 7446621099632628798
+    second: Heart_Anim_9
+  - first:
+      213: 5816548891081901640
+    second: Heart_Anim_10
+  - first:
+      213: -5441430219792227428
+    second: Heart_Anim_11
+  - first:
+      213: 3245809726655281356
+    second: Heart_Anim_12
+  - first:
+      213: -1361181885536089676
+    second: Heart_Anim_13
+  - first:
+      213: 8551121041368163409
+    second: Heart_Anim_14
+  - first:
+      213: -8181527143098669107
+    second: Heart_Anim_15
+  - first:
+      213: 7286456598643151172
+    second: Heart_Anim_16
+  - first:
+      213: 6166516199341828074
+    second: Heart_Anim_17
+  - first:
+      213: 3272028411328372708
+    second: Heart_Anim_18
+  - first:
+      213: -719848979969344208
+    second: Heart_Anim_19
+  - first:
+      213: 5585779715128162554
+    second: Heart_Anim_20
+  - first:
+      213: 413979664990246711
+    second: Heart_Anim_21
+  - first:
+      213: -7172535395882143943
+    second: Heart_Anim_22
+  - first:
+      213: 7391243000583697667
+    second: Heart_Anim_23
+  - first:
+      213: -6194619059169751861
+    second: Heart_Anim_24
+  - first:
+      213: 7912499873784938931
+    second: Heart_Anim_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Heart_Anim_0
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 670
+        width: 220
+        height: 210
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c220cd7f96af80e90800000000000000
+      internalID: -7059117082866351572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Heart_Anim_1
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 636
+        width: 307
+        height: 308
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3b47b3ef8e920e50800000000000000
+      internalID: 6774151130356599611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Heart_Anim_2
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 636
+        width: 301
+        height: 311
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a825918bb72103660800000000000000
+      internalID: 7363405713329705610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Heart_Anim_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 318
+        width: 332
+        height: 312
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5765cdd25e394f30800000000000000
+      internalID: 4560244623318280029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Heart_Anim_4
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 318
+        width: 307
+        height: 311
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3de94ea120598c50800000000000000
+      internalID: 6667948828886953279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Heart_Anim_17
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 550
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae7267bcfcdd39550800000000000000
+      internalID: 6166516199341828074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Heart_Anim_18
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 550
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ef96301184986d20800000000000000
+      internalID: 3272028411328372708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 76f868e007811c94589af9978191019b
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceOnImport
+        value: False
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Heart_Anim_0: -7059117082866351572
+      Heart_Anim_1: 6774151130356599611
+      Heart_Anim_10: 5816548891081901640
+      Heart_Anim_11: -5441430219792227428
+      Heart_Anim_12: 3245809726655281356
+      Heart_Anim_13: -1361181885536089676
+      Heart_Anim_14: 8551121041368163409
+      Heart_Anim_15: -8181527143098669107
+      Heart_Anim_16: 7286456598643151172
+      Heart_Anim_17: 6166516199341828074
+      Heart_Anim_18: 3272028411328372708
+      Heart_Anim_19: -719848979969344208
+      Heart_Anim_2: 7363405713329705610
+      Heart_Anim_20: 5585779715128162554
+      Heart_Anim_21: 413979664990246711
+      Heart_Anim_22: -7172535395882143943
+      Heart_Anim_23: 7391243000583697667
+      Heart_Anim_24: -6194619059169751861
+      Heart_Anim_25: 7912499873784938931
+      Heart_Anim_26: 226482238
+      Heart_Anim_27: -318888256
+      Heart_Anim_28: -1362191853
+      Heart_Anim_29: -2092338090
+      Heart_Anim_3: 4560244623318280029
+      Heart_Anim_4: 6667948828886953279
+      Heart_Anim_5: -2783471609189507137
+      Heart_Anim_6: 2331832954624614262
+      Heart_Anim_7: -4450185780350008164
+      Heart_Anim_8: 6481740958590496572
+      Heart_Anim_9: 7446621099632628798
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

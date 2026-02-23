@@ -10,17 +10,22 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private TMP_Text modifiersText;
 
     [Header("Face UI")]
-    [SerializeField] private SpriteRenderer faceDisplay; // The UI Image component on your Canvas
-    [SerializeField] private Sprite superHappyFace; // Assigned to Player_Happy (3 HP)
-    [SerializeField] private Sprite happyFace;      // Assigned to Player_Ok (2 HP)
-    [SerializeField] private Sprite neutralFace;    // Assigned to Player_Neut.. (1 HP)
-    [SerializeField] private Sprite sadFace;        // Assigned to Player_Sad (0 HP)
+    [SerializeField] private SpriteRenderer faceDisplay; 
+    [SerializeField] private Sprite superHappyFace; 
+    [SerializeField] private Sprite happyFace;      
+    [SerializeField] private Sprite neutralFace;    
+    [SerializeField] private Sprite sadFace;        
 
-   
+    // NEW: Add a reference to your new Heart UI Animator
+    [Header("Heart Animation")]
+    [SerializeField] private Animator heartAnimator;
 
     private PlayerHealth playerHealth;
     private PlayerStats stats;
     private UpgradeTracker tracker;
+
+    // NEW: We need to remember the last health amount to know if we took damage
+    private float lastKnownHealth;
 
     private void Awake()
     {
@@ -28,7 +33,12 @@ public class PlayerHUD : MonoBehaviour
         stats = FindFirstObjectByType<PlayerStats>();
         tracker = FindFirstObjectByType<UpgradeTracker>();
 
-        if (playerHealth) playerHealth.Changed += Refresh;
+        if (playerHealth) 
+        {
+            playerHealth.Changed += Refresh;
+            // NEW: Initialize lastKnownHealth when the game starts
+            lastKnownHealth = playerHealth.Current; 
+        }
         if (tracker) tracker.Changed += Refresh;
 
         Refresh();
@@ -42,12 +52,23 @@ public class PlayerHUD : MonoBehaviour
 
     private void Refresh()
     {
-        
-
         if (!playerHealth) return;
 
         float cur = playerHealth.Current;
         float max = playerHealth.MaxHealth;
+
+        // NEW: Check if current health is lower than the last time we checked
+        if (cur < lastKnownHealth)
+        {
+            // The player took damage! Trigger the animation.
+            if (heartAnimator != null)
+            {
+                heartAnimator.SetTrigger("TakeDamage");
+            }
+        }
+        
+        // NEW: Update the lastKnownHealth for the next time Refresh is called
+        lastKnownHealth = cur;
 
         // --- FACE LOGIC ---
         if (faceDisplay != null)
@@ -58,6 +79,8 @@ public class PlayerHUD : MonoBehaviour
             else faceDisplay.sprite = sadFace;
         }
         
+        // Note: You can disable the healthBar game object in the inspector 
+        // if you no longer want to see it, and this code will safely skip it!
         if (healthBar)
         {
             healthBar.value = (max <= 0f) ? 0f : (cur / max);
@@ -78,7 +101,6 @@ public class PlayerHUD : MonoBehaviour
     {
         var sb = new StringBuilder();
 
-        // Always show current effective stats
         if (stats)
         {
             sb.AppendLine("Modifiers:");
@@ -90,7 +112,6 @@ public class PlayerHUD : MonoBehaviour
             sb.AppendLine();
         }
 
-        // Then show �picked upgrades� counts
         if (tracker != null)
         {
             sb.AppendLine("Picked:");
