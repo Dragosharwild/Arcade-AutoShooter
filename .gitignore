@@ -73,4 +73,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
-/Assets/TextMesh Pro
+
+# Custom ignore rules
+.vscode/
+Packages/Coplay/
+Packages/manifest.json
+Packages/packages-lock.json
