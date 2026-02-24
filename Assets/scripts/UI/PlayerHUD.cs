@@ -1,3 +1,4 @@
+using System.Collections.Generic; // NEW: Needed for Lists
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -16,16 +17,17 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private Sprite neutralFace;    
     [SerializeField] private Sprite sadFace;        
 
-    // NEW: Add a reference to your new Heart UI Animator
-    [Header("Heart Animation")]
-    [SerializeField] private Animator heartAnimator;
+    [Header("Hearts UI")]
+    [SerializeField] private GameObject heartPrefab;    // The Prefab 
+    [SerializeField] private Transform heartsContainer; // The Layout Group that holds the hearts
+    
+    private List<Animator> heartsList = new List<Animator>(); // Keeps track of all spawned hearts
+    private float lastKnownHealth;
+    private float lastKnownMaxHealth;
 
     private PlayerHealth playerHealth;
     private PlayerStats stats;
     private UpgradeTracker tracker;
-
-    // NEW: We need to remember the last health amount to know if we took damage
-    private float lastKnownHealth;
 
     private void Awake()
     {
@@ -36,8 +38,8 @@ public class PlayerHUD : MonoBehaviour
         if (playerHealth) 
         {
             playerHealth.Changed += Refresh;
-            // NEW: Initialize lastKnownHealth when the game starts
             lastKnownHealth = playerHealth.Current; 
+            lastKnownMaxHealth = playerHealth.MaxHealth;
         }
         if (tracker) tracker.Changed += Refresh;
 
@@ -57,17 +59,48 @@ public class PlayerHUD : MonoBehaviour
         float cur = playerHealth.Current;
         float max = playerHealth.MaxHealth;
 
-        // NEW: Check if current health is lower than the last time we checked
-        if (cur < lastKnownHealth)
+        // --- 1. HANDLE MAX HEALTH UPGRADES ---
+        // If player max health changed, it needs to update how many hearts exist on screen
+        if (max != lastKnownMaxHealth || heartsList.Count == 0)
         {
-            // The player took damage! Trigger the animation.
-            if (heartAnimator != null)
+            AdjustHeartCount(max);
+            lastKnownMaxHealth = max;
+        }
+
+        // --- 2. HANDLE DAMAGE ANIMATIONS ---
+        // We use CeilToInt because your game has floating-point regen (e.g. 2.5 health).
+        // This ensures a heart only "breaks" when we drop below a full number (like dropping from 3 to 2).
+        int currentFullHearts = Mathf.CeilToInt(cur);
+        int previousFullHearts = Mathf.CeilToInt(lastKnownHealth);
+
+        if (currentFullHearts < previousFullHearts)
+        {
+            // We lost at least one full heart! Trigger the animation on the specific lost heart(s)
+            for (int i = previousFullHearts - 1; i >= currentFullHearts; i--)
             {
-                heartAnimator.SetTrigger("TakeDamage");
+                if (i >= 0 && i < heartsList.Count)
+                {
+                    heartsList[i].SetTrigger("TakeDamage");
+                }
             }
         }
-        
-        // NEW: Update the lastKnownHealth for the next time Refresh is called
+        else if (currentFullHearts > previousFullHearts)
+        {
+            // The player healed! Refill the empty hearts
+            for (int i = previousFullHearts; i < currentFullHearts; i++)
+            {
+                if (i >= 0 && i < heartsList.Count)
+                {
+                    // Bulletproof check before playing the animation
+                    if (heartsList[i].isActiveAndEnabled && heartsList[i].runtimeAnimatorController != null)
+                    {
+                        // Snap the heart back to its full, normal state
+                        heartsList[i].Play("Heart_Idle");
+                    }
+                }
+            }
+        }
+
         lastKnownHealth = cur;
 
         // --- FACE LOGIC ---
@@ -79,28 +112,36 @@ public class PlayerHUD : MonoBehaviour
             else faceDisplay.sprite = sadFace;
         }
         
-        // Note: You can disable the healthBar game object in the inspector 
-        // if you no longer want to see it, and this code will safely skip it!
-        if (healthBar)
+        if (healthBar) healthBar.value = (max <= 0f) ? 0f : (cur / max);
+        if (healthText) healthText.text = $"{cur:0.0} / {max:0.0}";
+        if (modifiersText) modifiersText.text = BuildModifiersText();
+    }
+
+    // Spawns more hearts if Player max health increases
+    private void AdjustHeartCount(float maxHealth)
+    {
+        int targetHeartCount = Mathf.CeilToInt(maxHealth);
+
+        // If we need more hearts (e.g., player got an upgrade)
+        while (heartsList.Count < targetHeartCount)
         {
-            healthBar.value = (max <= 0f) ? 0f : (cur / max);
+            GameObject newHeart = Instantiate(heartPrefab, heartsContainer);
+            Animator anim = newHeart.GetComponent<Animator>();
+            heartsList.Add(anim);
         }
 
-        if (healthText)
+        // If we have too many hearts (rare, but good practice to handle)
+        while (heartsList.Count > targetHeartCount)
         {
-            healthText.text = $"{cur:0.0} / {max:0.0}";
-        }
-
-        if (modifiersText)
-        {
-            modifiersText.text = BuildModifiersText();
+            int lastIndex = heartsList.Count - 1;
+            Destroy(heartsList[lastIndex].gameObject);
+            heartsList.RemoveAt(lastIndex);
         }
     }
 
     private string BuildModifiersText()
     {
         var sb = new StringBuilder();
-
         if (stats)
         {
             sb.AppendLine("Modifiers:");
@@ -111,14 +152,12 @@ public class PlayerHUD : MonoBehaviour
             sb.AppendLine($"MaxHP +{stats.maxHealthBonus}");
             sb.AppendLine();
         }
-
         if (tracker != null)
         {
             sb.AppendLine("Picked:");
             foreach (var kv in tracker.Snapshot())
                 sb.AppendLine($"{kv.Key} x{kv.Value}");
         }
-
         return sb.ToString().TrimEnd();
     }
 }
