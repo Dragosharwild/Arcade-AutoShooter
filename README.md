@@ -18,3 +18,4 @@ Project Name: Face Shooter
 NEW CHANGES:
 Mark Munoz - I added the main menu UI and started work on the pause features, alongside what we will decide to include in the settings for the player to change.
 
+Juan Del Angel- Updated sprites to player and enemies, added logic to changing player's face based on health. Updated Health Bar Visual, now it shows Hearts as total amount health. Added Logic to play animation when taking damaged, regen health, etc.
