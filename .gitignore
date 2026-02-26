@@ -76,6 +76,3 @@ crashlytics-build.properties
 
 # Custom ignore rules
 .vscode/
-Packages/Coplay/
-Packages/manifest.json
-Packages/packages-lock.json
