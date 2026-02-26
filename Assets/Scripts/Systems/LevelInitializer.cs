@@ -18,12 +18,11 @@ public class LevelInitializer : MonoBehaviour
         // Get player components
         var playerXp = FindFirstObjectByType<PlayerXp>();
         var playerStats = FindFirstObjectByType<PlayerStats>();
-        var upgradeTracker = FindFirstObjectByType<UpgradeTracker>();
 
         // Apply saved progression to this level
-        if (playerXp && playerStats && upgradeTracker)
+        if (playerXp && playerStats)
         {
-            ProgressionManager.Instance.ApplyProgressionToPlayer(playerXp, playerStats, upgradeTracker);
+            ProgressionManager.Instance.ApplyProgressionToPlayer(playerXp, playerStats);
         }
     }
 }

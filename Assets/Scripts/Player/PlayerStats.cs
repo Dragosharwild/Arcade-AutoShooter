@@ -33,6 +33,20 @@ public class PlayerStats : MonoBehaviour
         rangeBonus = modifierCatalog.BaseRangeBonus;
     }
 
+    public void ApplyPersistedModifiers(
+        float persistedMoveSpeedMult,
+        int persistedMaxHealthBonus,
+        float persistedDamageMult,
+        float persistedCooldownMult,
+        float persistedRangeBonus)
+    {
+        moveSpeedMult = persistedMoveSpeedMult;
+        maxHealthBonus = persistedMaxHealthBonus;
+        damageMult = persistedDamageMult;
+        cooldownMult = persistedCooldownMult;
+        rangeBonus = persistedRangeBonus;
+    }
+
     public void ApplyUpgrade(UpgradeDefinitionSO upgrade)
     {
         if (!upgrade) return;

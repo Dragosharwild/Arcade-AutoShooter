@@ -17,7 +17,7 @@ public class ProgressionManager : MonoBehaviour
     // Accumulated stats
     private int accumulatedLevel = 1;
     private int accumulatedXp = 0;
-    private Dictionary<string, int> accumulatedUpgrades = new();
+    private Dictionary<UpgradeDefinitionSO, int> accumulatedUpgrades = new();
     
     // Multipliers that carry over
     private float damageMultiplier = 1f;
@@ -48,32 +48,24 @@ public class ProgressionManager : MonoBehaviour
     /// <summary>
     /// Called when a level ends (player survives the timer).
     /// Captures current stats before level transition.
+    /// Upgrade selections should be tracked via RegisterUpgradeSelection.
     /// </summary>
-    public void OnLevelEnded(PlayerXp playerXp, PlayerStats playerStats, UpgradeTracker upgradeTracker)
+    public void OnLevelEnded(PlayerXp playerXp, PlayerStats playerStats)
     {
-        if (!playerXp || !playerStats || !upgradeTracker)
+        if (!playerXp || !playerStats)
             return;
 
         // Save current level's XP and level
         accumulatedXp += playerXp.Xp;
         accumulatedLevel = playerXp.Level + (currentLevelNumber - 1); // Adjusted cumulative level
 
-        // Accumulate multipliers
-        damageMultiplier *= playerStats.damageMult;
-        cooldownMultiplier *= playerStats.cooldownMult;
-        moveSpeedMultiplier *= playerStats.moveSpeedMult;
-        maxHealthBonus += playerStats.maxHealthBonus;
-        rangeBonus += playerStats.rangeBonus;
-
-        // Capture upgrade history
-        var upgrades = upgradeTracker.Snapshot();
-        foreach (var upgrade in upgrades)
-        {
-            if (!accumulatedUpgrades.ContainsKey(upgrade.Key))
-                accumulatedUpgrades[upgrade.Key] = 0;
-
-            accumulatedUpgrades[upgrade.Key] += upgrade.Value;
-        }
+        // Persist final runtime totals from this level.
+        // Avoid compounding previous progression twice.
+        damageMultiplier = playerStats.damageMult;
+        cooldownMultiplier = playerStats.cooldownMult;
+        moveSpeedMultiplier = playerStats.moveSpeedMult;
+        maxHealthBonus = playerStats.maxHealthBonus;
+        rangeBonus = playerStats.rangeBonus;
 
         currentLevelNumber++;
         OnLevelCompleted?.Invoke();
@@ -84,29 +76,36 @@ public class ProgressionManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Applies accumulated progression to the player at the start of a new level.
-    /// Call this after PlayerXp, PlayerStats, and UpgradeTracker are initialized.
+    /// Registers an applied upgrade selection using the SO reference.
+    /// Call this when a player picks an upgrade from LevelUpUI.
     /// </summary>
-    public void ApplyProgressionToPlayer(PlayerXp playerXp, PlayerStats playerStats, UpgradeTracker upgradeTracker)
+    public void RegisterUpgradeSelection(UpgradeDefinitionSO upgrade, int amount = 1)
     {
-        if (!playerXp || !playerStats || !upgradeTracker)
+        if (!upgrade || amount <= 0)
             return;
 
-        // Apply accumulated multipliers
-        playerStats.damageMult = damageMultiplier;
-        playerStats.cooldownMult = cooldownMultiplier;
-        playerStats.moveSpeedMult = moveSpeedMultiplier;
-        playerStats.maxHealthBonus = maxHealthBonus;
-        playerStats.rangeBonus = rangeBonus;
+        if (!accumulatedUpgrades.ContainsKey(upgrade))
+            accumulatedUpgrades[upgrade] = 0;
 
-        // Restore upgrade history to tracker
-        foreach (var upgrade in accumulatedUpgrades)
-        {
-            for (int i = 0; i < upgrade.Value; i++)
-            {
-                upgradeTracker.Add(upgrade.Key);
-            }
-        }
+        accumulatedUpgrades[upgrade] += amount;
+    }
+
+    /// <summary>
+    /// Applies accumulated progression to the player at the start of a new level.
+    /// Call this after PlayerXp and PlayerStats are initialized.
+    /// </summary>
+    public void ApplyProgressionToPlayer(PlayerXp playerXp, PlayerStats playerStats)
+    {
+        if (!playerXp || !playerStats)
+            return;
+
+        // Apply persisted totals through PlayerStats API.
+        playerStats.ApplyPersistedModifiers(
+            moveSpeedMultiplier,
+            maxHealthBonus,
+            damageMultiplier,
+            cooldownMultiplier,
+            rangeBonus);
 
         Debug.Log($"[Progression] Applied progression to level {currentLevelNumber}. " +
                   $"Damage Mult: {damageMultiplier:F2}, " +
@@ -137,7 +136,24 @@ public class ProgressionManager : MonoBehaviour
     // Getters for UI display
     public int CurrentLevelNumber => currentLevelNumber;
     public int AccumulatedLevel => accumulatedLevel;
-    public Dictionary<string, int> GetAccumulatedUpgrades() => new(accumulatedUpgrades);
+    public Dictionary<UpgradeDefinitionSO, int> GetAccumulatedUpgradeDefinitions() => new(accumulatedUpgrades);
+    public Dictionary<string, int> GetAccumulatedUpgrades()
+    {
+        Dictionary<string, int> result = new();
+
+        foreach (var pair in accumulatedUpgrades)
+        {
+            if (!pair.Key) continue;
+
+            string key = pair.Key.DisplayName;
+            if (!result.ContainsKey(key))
+                result[key] = 0;
+
+            result[key] += pair.Value;
+        }
+
+        return result;
+    }
     public float DamageMultiplier => damageMultiplier;
     public float CooldownMultiplier => cooldownMultiplier;
     public float MoveSpeedMultiplier => moveSpeedMultiplier;
