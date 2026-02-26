@@ -1872,7 +1872,6 @@ GameObject:
   - component: {fileID: 555326801}
   - component: {fileID: 555326803}
   - component: {fileID: 555326802}
-  - component: {fileID: 555326804}
   m_Layer: 3
   m_Name: player
   m_TagString: Player
@@ -2088,10 +2087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9afbf3d5c6d1e2242b257e461f2017a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AutoWeapon
-  projectilePrefab: {fileID: 8514460195434300196, guid: 271ea0a4602242a4eb04f228b331a613, type: 3}
-  range: 12
-  cooldown: 0.6
-  damage: 2
+  weaponDefinition: {fileID: 11400000, guid: dc190010046788547b29f3c4c29e6976, type: 2}
 --- !u!114 &555326802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2104,11 +2100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab33f7803c5d494280e46cab2c5d01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  moveSpeedMult: 1
-  maxHealthBonus: 0
-  damageMult: 1
-  cooldownMult: 1
-  rangeBonus: 0
+  modifierCatalog: {fileID: 11400000, guid: 0b6c69734d091bb458cb04c8461f69e6, type: 2}
 --- !u!114 &555326803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2126,17 +2118,6 @@ MonoBehaviour:
   baseXpToNext: 5
   xpPerLevel: 3
 --- !u!114 &555326804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 555326793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66c145887428e9344a8cb73e7b64ad51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UpgradeTracker
 --- !u!1 &557242055
 GameObject:
   m_ObjectHideFlags: 0
@@ -3631,6 +3612,8 @@ MonoBehaviour:
   - {fileID: 1470447564}
   - {fileID: 72303046}
   - {fileID: 917338144}
+  optionsPerLevel: 3
+  upgradePool: {fileID: 11400000, guid: 02e8f510c5435c04d9c6712b8ef30e40, type: 2}
 --- !u!114 &1882531931
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,42 +5,25 @@ using TMPro;
 
 public class LevelUpUI : MonoBehaviour
 {
-    public enum UpgradeType
-    {
-        DamageUp,
-        FireRateUp,
-        MoveSpeedUp,
-        RangeUp,
-        MaxHpUp
-    }
-
-    [Serializable]
-    public class UpgradeDef
-    {
-        public UpgradeType type;
-        public string label;
-    }
-
     [Header("Buttons (3)")]
     [SerializeField] private Button[] buttons;
     [SerializeField] private TMP_Text[] buttonTexts;
+    [SerializeField] private int optionsPerLevel = 3;
 
-    private readonly List<UpgradeDef> pool = new()
-    {
-        new UpgradeDef{ type = UpgradeType.DamageUp,   label = "+10% Damage" },
-        new UpgradeDef{ type = UpgradeType.FireRateUp, label = "+15% Fire Rate" },
-        new UpgradeDef{ type = UpgradeType.MoveSpeedUp,label = "+10% Move Speed" },
-        new UpgradeDef{ type = UpgradeType.RangeUp,    label = "+2 Range" },
-        new UpgradeDef{ type = UpgradeType.MaxHpUp,    label = "+1 Max HP" },
-    };
+    [Header("Upgrade Data")]
+    [SerializeField] private UpgradePoolSO upgradePool;
 
     private PlayerStats stats;
-    private UpgradeTracker tracker;
+    private PlayerHealth playerHealth;
 
     private void Awake()
     {
         stats = FindFirstObjectByType<PlayerStats>();
-        tracker = FindFirstObjectByType<UpgradeTracker>();
+        playerHealth = FindFirstObjectByType<PlayerHealth>();
+
+        if (!upgradePool)
+            Debug.LogError("LevelUpUI requires an UpgradePoolSO reference.", this);
+
         gameObject.SetActive(false);
     }
 
@@ -50,20 +32,31 @@ public class LevelUpUI : MonoBehaviour
         Time.timeScale = 0f;
         gameObject.SetActive(true);
 
-        // pick 3 distinct upgrades
-        List<int> picks = PickDistinct(pool.Count, 3);
-
-        for (int i = 0; i < 3; i++)
+        List<UpgradeDefinitionSO> sourcePool = GetPool();
+        if (sourcePool.Count == 0)
         {
-            var def = pool[picks[i]];
+            Hide();
+            return;
+        }
+
+        List<UpgradeDefinitionSO> picks = UpgradeSelectionService.PickDistinct(sourcePool, optionsPerLevel);
+
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            bool hasOption = i < picks.Count;
+            buttons[i].gameObject.SetActive(hasOption);
+            if (!hasOption) continue;
+
+            UpgradeDefinitionSO def = picks[i];
             int idx = i;
 
-            buttonTexts[i].text = def.label;
+            if (idx < buttonTexts.Length)
+                buttonTexts[idx].text = def.DisplayName;
 
             buttons[i].onClick.RemoveAllListeners();
             buttons[i].onClick.AddListener(() =>
             {
-                Apply(def.type);
+                Apply(def);
                 Hide();
             });
         }
@@ -75,41 +68,21 @@ public class LevelUpUI : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    private void Apply(UpgradeType type)
+    private void Apply(UpgradeDefinitionSO upgrade)
     {
-        if (!stats) return;
+        if (!stats || !upgrade) return;
 
-        switch (type)
-        {
-            case UpgradeType.DamageUp:
-                stats.damageMult *= 1.10f;
-                break;
-            case UpgradeType.FireRateUp:
-                stats.cooldownMult *= 0.85f; // lower cooldown = faster
-                break;
-            case UpgradeType.MoveSpeedUp:
-                stats.moveSpeedMult *= 1.10f;
-                break;
-            case UpgradeType.RangeUp:
-                stats.rangeBonus += 2f;
-                break;
-            case UpgradeType.MaxHpUp:
-                stats.maxHealthBonus += 1;
-                FindFirstObjectByType<PlayerHealth>()?.Heal(1f); // optional
-                break;
-        }
+        stats.ApplyUpgrade(upgrade);
 
-        tracker?.Add(type.ToString());
+        if (upgrade.HealOnApply)
+            playerHealth?.Heal(upgrade.HealAmount);
     }
 
-    private static List<int> PickDistinct(int maxExclusive, int count)
+    private List<UpgradeDefinitionSO> GetPool()
     {
-        List<int> indices = new();
-        while (indices.Count < count)
-        {
-            int r = UnityEngine.Random.Range(0, maxExclusive);
-            if (!indices.Contains(r)) indices.Add(r);
-        }
-        return indices;
+        if (!upgradePool || upgradePool.Upgrades == null)
+            return new List<UpgradeDefinitionSO>();
+
+        return new List<UpgradeDefinitionSO>(upgradePool.Upgrades);
     }
 }

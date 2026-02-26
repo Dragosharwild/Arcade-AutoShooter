@@ -16,6 +16,8 @@ YOU PROVE THEM WRONGGGG. If they come too close, they’ll hurl hurtful comments
 Project Name: Face Shooter 
 
 NEW CHANGES:
+Cesar Lozano - Refactored weapons/upgrades to fully use ScriptableObjects (removed hardcoded upgrade and weapon data from runtime logic). Quick add flow: create a new Weapon Definition asset in Assets/SOs and assign it to the player's AutoWeapon; create a new Upgrade Definition asset in Assets/SOs and add it to StarterUpgradePool to include it in level-up choices (minimal to no code changes needed).
+
 Mark Munoz - I added the main menu UI and started work on the pause features, alongside what we will decide to include in the settings for the player to change.
 
 Juan Del Angel- Updated sprites to player and enemies, added logic to changing player's face based on health. Updated Health Bar Visual, now it shows Hearts as total amount health. Added Logic to play animation when taking damaged, regen health, etc.
