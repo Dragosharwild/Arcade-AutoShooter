@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9def0e8ce65b5304fb1e313f53bbec0a, type: 3}
+  m_Name: Starter
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
+  projectilePrefab: {fileID: 8514460195434300196, guid: 271ea0a4602242a4eb04f228b331a613, type: 3}
+  range: 12
+  cooldown: 0.6
+  damage: 2
