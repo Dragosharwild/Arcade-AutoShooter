@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20dcf0255fb94c54f9c8c75ece4ca0a6, type: 3}
-  m_Name: Upg_Damage
+  m_Name: Upg_DodgeChance
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinitionSO
-  displayName: +10% Damage
+  displayName: +4% Dodge Chance
   weight: 1
   tags:
-  - 1
+  - 2
   effects:
-  - stat: 0
-    operation: 1
-    value: 1.1
+  - stat: 7
+    operation: 0
+    value: 0.04
   healOnApply: 0
   healAmount: 1

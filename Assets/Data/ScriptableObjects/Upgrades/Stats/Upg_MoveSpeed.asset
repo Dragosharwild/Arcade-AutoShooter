@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Upg_MoveSpeed
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinitionSO
   displayName: +10% Move Speed
-  stat: 2
-  operation: 1
-  value: 1.1
+  weight: 1
+  tags:
+  - 3
+  effects:
+  - stat: 2
+    operation: 1
+    value: 1.1
   healOnApply: 0
   healAmount: 1

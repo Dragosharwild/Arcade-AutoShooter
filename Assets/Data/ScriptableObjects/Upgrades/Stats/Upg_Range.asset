@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Upg_Range
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinitionSO
   displayName: +2 Range
-  stat: 3
-  operation: 0
-  value: 2
+  weight: 1
+  tags:
+  - 1
+  effects:
+  - stat: 3
+    operation: 0
+    value: 2
   healOnApply: 0
   healAmount: 1

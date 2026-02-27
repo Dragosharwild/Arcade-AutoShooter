@@ -50,14 +50,23 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    public bool TryTakeDamage(float amount)
+    public bool TryTakeDamage(float amount, Health attackerHealth = null)
     {
         if (Current <= 0f) return false;
         if (invulnTimer > 0f) return false;
+        if (stats && stats.dodgeChance > 0f && UnityEngine.Random.value <= stats.dodgeChance)
+            return false;
 
         Current = Mathf.Max(0f, Current - amount);
         invulnTimer = invulnSeconds;
         regenDelayTimer = regenDelayAfterHit;
+
+        if (stats && attackerHealth && stats.damageReflection > 0f)
+        {
+            float reflectedDamage = amount * stats.damageReflection;
+            if (reflectedDamage > 0f)
+                attackerHealth.TakeDamage(reflectedDamage);
+        }
 
         Changed?.Invoke();
 

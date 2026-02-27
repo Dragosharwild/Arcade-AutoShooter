@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Upg_FireRate
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinitionSO
   displayName: +15% Fire Rate
-  stat: 1
-  operation: 1
-  value: 0.85
+  weight: 1
+  tags:
+  - 1
+  effects:
+  - stat: 1
+    operation: 1
+    value: 0.85
   healOnApply: 0
   healAmount: 1

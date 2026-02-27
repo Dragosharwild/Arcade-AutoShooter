@@ -9,6 +9,9 @@ public class DmgOnContact : MonoBehaviour
         if (!collision.collider.CompareTag("Player")) return;
 
         var playerHealth = collision.collider.GetComponent<PlayerHealth>();
-        if (playerHealth) playerHealth.TryTakeDamage(damage);
+        if (!playerHealth) return;
+
+        var attackerHealth = GetComponent<Health>();
+        playerHealth.TryTakeDamage(damage, attackerHealth);
     }
 }

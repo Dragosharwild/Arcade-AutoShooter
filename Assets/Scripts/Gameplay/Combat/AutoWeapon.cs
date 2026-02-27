@@ -8,6 +8,7 @@ public class AutoWeapon : MonoBehaviour
     private float timer;
 
     private PlayerStats stats;
+    private PlayerHealth playerHealth;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class AutoWeapon : MonoBehaviour
         }
 
         stats = GetComponent<PlayerStats>();
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     private void Update()
@@ -48,6 +50,6 @@ public class AutoWeapon : MonoBehaviour
         if (dir.sqrMagnitude < 0.0001f) return;
 
         Projectile p = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
-        p.Init(dir, computedDamage);
+        p.Init(dir, computedDamage, stats, playerHealth);
     }
 }

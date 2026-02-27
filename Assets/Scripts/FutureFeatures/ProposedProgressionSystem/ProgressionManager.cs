@@ -25,6 +25,11 @@ public class ProgressionManager : MonoBehaviour
     private float moveSpeedMultiplier = 1f;
     private int maxHealthBonus = 0;
     private float rangeBonus = 0f;
+    private float critChance = 0f;
+    private float critDamageBonus = 0f;
+    private float dodgeChance = 0f;
+    private float damageReflection = 0f;
+    private float lifesteal = 0f;
 
     // Events
     public event System.Action OnLevelCompleted;
@@ -66,6 +71,11 @@ public class ProgressionManager : MonoBehaviour
         moveSpeedMultiplier = playerStats.moveSpeedMult;
         maxHealthBonus = playerStats.maxHealthBonus;
         rangeBonus = playerStats.rangeBonus;
+        critChance = playerStats.critChance;
+        critDamageBonus = playerStats.critDamageBonus;
+        dodgeChance = playerStats.dodgeChance;
+        damageReflection = playerStats.damageReflection;
+        lifesteal = playerStats.lifesteal;
 
         currentLevelNumber++;
         OnLevelCompleted?.Invoke();
@@ -105,7 +115,12 @@ public class ProgressionManager : MonoBehaviour
             maxHealthBonus,
             damageMultiplier,
             cooldownMultiplier,
-            rangeBonus);
+            rangeBonus,
+            critChance,
+            critDamageBonus,
+            dodgeChance,
+            damageReflection,
+            lifesteal);
 
         Debug.Log($"[Progression] Applied progression to level {currentLevelNumber}. " +
                   $"Damage Mult: {damageMultiplier:F2}, " +
@@ -127,6 +142,11 @@ public class ProgressionManager : MonoBehaviour
         moveSpeedMultiplier = 1f;
         maxHealthBonus = 0;
         rangeBonus = 0f;
+        critChance = 0f;
+        critDamageBonus = 0f;
+        dodgeChance = 0f;
+        damageReflection = 0f;
+        lifesteal = 0f;
 
         OnProgressionReset?.Invoke();
 
@@ -159,4 +179,9 @@ public class ProgressionManager : MonoBehaviour
     public float MoveSpeedMultiplier => moveSpeedMultiplier;
     public int MaxHealthBonus => maxHealthBonus;
     public float RangeBonus => rangeBonus;
+    public float CritChance => critChance;
+    public float CritDamageBonus => critDamageBonus;
+    public float DodgeChance => dodgeChance;
+    public float DamageReflection => damageReflection;
+    public float Lifesteal => lifesteal;
 }

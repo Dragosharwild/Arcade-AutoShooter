@@ -21,17 +21,27 @@ public class DebugCheatMenu : MonoBehaviour
     [SerializeField] private NumberKey setOneSecondRemainingKey = NumberKey.One;
     [SerializeField] private NumberKey killPlayerKey = NumberKey.Two;
     [SerializeField] private NumberKey instantLevelUpKey = NumberKey.Three;
+    [SerializeField] private NumberKey addRerollKey = NumberKey.Four;
+    [SerializeField] private NumberKey addBanishKey = NumberKey.Five;
+    [SerializeField] private NumberKey empowerNextLevelUpKey = NumberKey.Six;
 
     [Header("Cheat Targets")]
     [SerializeField] private RunManager runManager;
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private PlayerXp playerXp;
+    [SerializeField] private LevelUpUI levelUpUI;
+
+    [Header("Cheat Values")]
+    [SerializeField] private int rerollsPerPress = 2;
+    [SerializeField] private int banishesPerPress = 2;
+    [SerializeField] private int empoweredExtraOptions = 1;
 
     private void Awake()
     {
         if (!runManager) runManager = FindFirstObjectByType<RunManager>();
         if (!playerHealth) playerHealth = FindFirstObjectByType<PlayerHealth>();
         if (!playerXp) playerXp = FindFirstObjectByType<PlayerXp>();
+        if (!levelUpUI) levelUpUI = FindFirstObjectByType<LevelUpUI>(FindObjectsInactive.Include);
     }
 
     private void Update()
@@ -44,6 +54,15 @@ public class DebugCheatMenu : MonoBehaviour
 
         if (WasPressedThisFrame(instantLevelUpKey) && playerXp)
             playerXp.AddXp(playerXp.XpToNext);
+
+        if (WasPressedThisFrame(addRerollKey) && levelUpUI)
+            levelUpUI.AddRerolls(rerollsPerPress);
+
+        if (WasPressedThisFrame(addBanishKey) && levelUpUI)
+            levelUpUI.AddBanishes(banishesPerPress);
+
+        if (WasPressedThisFrame(empowerNextLevelUpKey) && levelUpUI)
+            levelUpUI.RegisterEmpoweredLevelUp(empoweredExtraOptions);
     }
 
     private static bool WasPressedThisFrame(NumberKey numberKey)

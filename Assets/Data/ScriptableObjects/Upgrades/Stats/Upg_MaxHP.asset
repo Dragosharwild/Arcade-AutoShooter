@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Upg_MaxHP
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinitionSO
   displayName: +1 Max HP
-  stat: 4
-  operation: 0
-  value: 1
+  weight: 1
+  tags:
+  - 2
+  effects:
+  - stat: 4
+    operation: 0
+    value: 1
   healOnApply: 1
   healAmount: 1
