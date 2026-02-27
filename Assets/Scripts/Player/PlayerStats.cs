@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
@@ -11,6 +13,9 @@ public class PlayerStats : MonoBehaviour
     public float damageMult { get; private set; } = 1f;
     public float cooldownMult { get; private set; } = 1f;
     public float rangeBonus { get; private set; } = 0f;
+
+    public event Action Changed;
+    private readonly Dictionary<UpgradeDefinitionSO, int> appliedUpgrades = new();
 
     private void Awake()
     {
@@ -31,6 +36,8 @@ public class PlayerStats : MonoBehaviour
         damageMult = modifierCatalog.BaseDamageMult;
         cooldownMult = modifierCatalog.BaseCooldownMult;
         rangeBonus = modifierCatalog.BaseRangeBonus;
+        appliedUpgrades.Clear();
+        Changed?.Invoke();
     }
 
     public void ApplyPersistedModifiers(
@@ -45,11 +52,16 @@ public class PlayerStats : MonoBehaviour
         damageMult = persistedDamageMult;
         cooldownMult = persistedCooldownMult;
         rangeBonus = persistedRangeBonus;
+        Changed?.Invoke();
     }
 
     public void ApplyUpgrade(UpgradeDefinitionSO upgrade)
     {
         if (!upgrade) return;
+
+        if (!appliedUpgrades.ContainsKey(upgrade))
+            appliedUpgrades[upgrade] = 0;
+        appliedUpgrades[upgrade]++;
 
         switch (upgrade.Stat)
         {
@@ -69,6 +81,26 @@ public class PlayerStats : MonoBehaviour
                 maxHealthBonus = ApplyInt(maxHealthBonus, upgrade.Operation, upgrade.Value);
                 break;
         }
+
+        Changed?.Invoke();
+    }
+
+    public Dictionary<string, int> GetAppliedUpgrades()
+    {
+        Dictionary<string, int> result = new();
+
+        foreach (var pair in appliedUpgrades)
+        {
+            if (!pair.Key) continue;
+
+            string key = pair.Key.DisplayName;
+            if (!result.ContainsKey(key))
+                result[key] = 0;
+
+            result[key] += pair.Value;
+        }
+
+        return result;
     }
 
     private static float ApplyFloat(float current, UpgradeOperation operation, float value)

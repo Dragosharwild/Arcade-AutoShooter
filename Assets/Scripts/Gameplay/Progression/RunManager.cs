@@ -13,12 +13,10 @@ public class RunManager : MonoBehaviour
     public float TimeRemaining => Mathf.Max(0f, runDuration - timer);
 
     private PlayerHealth playerHealth;
-    private LevelUpUI levelUpUI;
 
     private void Awake()
     {
         playerHealth = FindFirstObjectByType<PlayerHealth>();
-        levelUpUI = FindFirstObjectByType<LevelUpUI>(FindObjectsInactive.Include);
     }
 
     private void Update()
@@ -54,6 +52,14 @@ public class RunManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
+    public void DebugSetRemainingTime(float seconds)
+    {
+        if (runEnded) return;
+
+        float clampedSeconds = Mathf.Max(0f, seconds);
+        timer = Mathf.Clamp(runDuration - clampedSeconds, 0f, runDuration);
     }
 
 }

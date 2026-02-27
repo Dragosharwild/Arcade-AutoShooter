@@ -23,8 +23,6 @@ public class LevelUpUI : MonoBehaviour
 
         if (!upgradePool)
             Debug.LogError("LevelUpUI requires an UpgradePoolSO reference.", this);
-
-        gameObject.SetActive(false);
     }
 
     public void Show()

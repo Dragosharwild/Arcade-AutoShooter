@@ -77,4 +77,17 @@ public class PlayerHealth : MonoBehaviour
         Current = Mathf.Min(MaxHealth, Current + amount);
         Changed?.Invoke();
     }
+
+    public void DebugKill()
+    {
+        if (Current <= 0f) return;
+
+        Current = 0f;
+        invulnTimer = 0f;
+        regenDelayTimer = regenDelayAfterHit;
+
+        Changed?.Invoke();
+        Died?.Invoke();
+        gameObject.SetActive(false);
+    }
 }
