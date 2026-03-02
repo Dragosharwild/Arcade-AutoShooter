@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -40,12 +41,16 @@ public class PlayerHUD : MonoBehaviour
             lastKnownMaxHealth = playerHealth.MaxHealth;
         }
 
+        if (stats)
+            stats.Changed += Refresh;
+
         Refresh();
     }
 
     private void OnDestroy()
     {
         if (playerHealth) playerHealth.Changed -= Refresh;
+        if (stats) stats.Changed -= Refresh;
     }
 
     private void Refresh()
@@ -133,7 +138,31 @@ public class PlayerHUD : MonoBehaviour
             sb.AppendLine($"RNG +{stats.rangeBonus:0.0}");
             sb.AppendLine($"MS  x{stats.moveSpeedMult:0.00}");
             sb.AppendLine($"MaxHP +{stats.maxHealthBonus}");
+            sb.AppendLine($"Crit {stats.critChance * 100f:0.#}%");
+            sb.AppendLine($"CritDmg x{stats.CritDamageMultiplier:0.00}");
+            sb.AppendLine($"Dodge {stats.dodgeChance * 100f:0.#}%");
+            sb.AppendLine($"Reflect {stats.damageReflection * 100f:0.#}%");
+            sb.AppendLine($"Lifesteal {stats.lifesteal * 100f:0.#}%");
+            Dictionary<string, int> selectedUpgrades = stats.GetAppliedUpgrades();
+
+            if (sb.Length > 0)
+                sb.AppendLine();
+
+            sb.AppendLine("Upgrades:");
+
+            if (selectedUpgrades.Count == 0)
+            {
+                sb.AppendLine("None");
+            }
+            else
+            {
+                foreach (var pair in selectedUpgrades.OrderByDescending(p => p.Value).ThenBy(p => p.Key))
+                {
+                    sb.AppendLine(pair.Value > 1 ? $"{pair.Key} x{pair.Value}" : pair.Key);
+                }
+            }
         }
+
         return sb.ToString().TrimEnd();
     }
 }
